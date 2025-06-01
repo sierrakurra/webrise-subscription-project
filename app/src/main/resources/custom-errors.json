@@ -1,0 +1,12 @@
+[
+  {
+    "code": "CUSTOM_ERROR_BY_CODE_NOT_FOUND_ERROR",
+    "message": "Не найдена кастомная ошибка по коду {0}",
+    "status": 500
+  },
+  {
+    "code": "USER_NOT_FOUND_ERROR",
+    "message": "Не найден пользователь с id {0}",
+    "status": 404
+  }
+]

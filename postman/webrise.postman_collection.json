@@ -1,0 +1,204 @@
+{
+	"info": {
+		"_postman_id": "423904cd-2680-4f28-9a11-3ddf3082da5d",
+		"name": "webrise",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36881950"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "get-all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{USER_API}}",
+							"host": [
+								"{{USER_API}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-by-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{USER_API}}/{{CREATED_USER_ID}}",
+							"host": [
+								"{{USER_API}}"
+							],
+							"path": [
+								"{{CREATED_USER_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const responseBody = pm.response.json();",
+									"    pm.collectionVariables.set(\"CREATED_USER_ID\", responseBody.id);",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function generateRandomEmail() {",
+									"    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';",
+									"    let email = '';",
+									"    for (let i = 0; i < 10; i++) {",
+									"        email += characters.charAt(Math.floor(Math.random() * characters.length));",
+									"    }",
+									"    return email + '@example.com'; ",
+									"}",
+									"",
+									"const randomEmail = generateRandomEmail();",
+									"let body = JSON.parse(pm.request.body.raw);",
+									"body.email = randomEmail;",
+									"pm.request.body.raw = JSON.stringify(body);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"surname\": \"Иванов\",\n    \"name\": \"Иван\",\n    \"email\": \"email@example.com\",\n    \"password\": \"1111\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{USER_API}}",
+							"host": [
+								"{{USER_API}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"surname\": \"Сергеев\",\n    \"name\": \"Сергей\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{USER_API}}/{{CREATED_USER_ID}}",
+							"host": [
+								"{{USER_API}}"
+							],
+							"path": [
+								"{{CREATED_USER_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 204) {",
+									"    pm.collectionVariables.set(\"CREATED_USER_ID\", null);",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{USER_API}}/{{CREATED_USER_ID}}",
+							"host": [
+								"{{USER_API}}"
+							],
+							"path": [
+								"{{CREATED_USER_ID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "USER_API",
+			"value": "{{BASE}}/api/v1/users",
+			"type": "string"
+		},
+		{
+			"key": "CREATED_USER_ID",
+			"value": ""
+		}
+	]
+}

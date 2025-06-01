@@ -4,7 +4,13 @@ spring:
     username: ${DB_USER:user}
     password: ${DB_PASSWORD:password}
     driver-class-name: org.postgresql.Driver
+    hikari:
+      schema: subscription-service
   jpa:
     hibernate:
       ddl-auto: validate
     show-sql: true
+
+  flyway:
+    default-schema: subscription-service
+    create-schemas: true
