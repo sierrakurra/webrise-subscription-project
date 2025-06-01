@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:15
+    container_name: db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: subscription
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data/pgdata
+    networks:
+      - app_local_network
+
+volumes:
+  pg_data:
+
+networks:
+  app_local_network:
