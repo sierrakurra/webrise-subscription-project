@@ -15,6 +15,7 @@ public class CustomErrorResponse {
     private String message;
     private Integer status;
     private String uri;
+    @Builder.Default
     private LocalDateTime timestamp = LocalDateTime.now();
 
 }

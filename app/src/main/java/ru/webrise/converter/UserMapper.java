@@ -1,9 +1,6 @@
 package ru.webrise.converter;
 
-import org.mapstruct.IterableMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
+import org.mapstruct.*;
 import ru.webrise.controller.dto.user.DetailedUserDto;
 import ru.webrise.controller.dto.user.UserDto;
 import ru.webrise.controller.dto.user.request.CreateUserRequestDto;
@@ -13,7 +10,7 @@ import ru.webrise.model.User;
 import java.util.List;
 import java.util.UUID;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface UserMapper {
 
     @IterableMapping(qualifiedByName = "userToUserDto")

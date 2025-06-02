@@ -31,6 +31,10 @@ public class UserService {
 
     @Transactional
     public User create(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new CommonException(Error.USER_WITH_EMAIL_ALREADY_EXISTS_ERROR)
+                    .withParameters(user.getEmail());
+        }
         return userRepository.save(user);
     }
 

@@ -8,5 +8,20 @@
     "code": "USER_NOT_FOUND_ERROR",
     "message": "Не найден пользователь с id {0}",
     "status": 404
+  },
+  {
+    "code": "PLATFORM_NOT_FOUND_ERROR",
+    "message": "Не найдена платформа с id {0}",
+    "status": 404
+  },
+  {
+    "code": "SUBSCRIPTION_ALREADY_EXISTS_ERROR",
+    "message": "Подписка для пользователя с id {0} на платформу {1} с id аккаунта на ней {2} уже зарегистрирована",
+    "status": 400
+  },
+  {
+    "code": "USER_WITH_EMAIL_ALREADY_EXISTS_ERROR",
+    "message": "Пользователь с email {0} уже существует",
+    "status": 400
   }
 ]

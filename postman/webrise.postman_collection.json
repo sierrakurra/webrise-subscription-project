@@ -161,6 +161,144 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "platform",
+			"item": [
+				{
+					"name": "get-all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{PLATFORM_API}}",
+							"host": [
+								"{{PLATFORM_API}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "subscription",
+			"item": [
+				{
+					"name": "get-all-by-user",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{USER_SUBSCRIPTION_API}}",
+							"host": [
+								"{{USER_SUBSCRIPTION_API}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"function generateRandomAccountId() {",
+									"    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';",
+									"    let accountId = '';",
+									"    for (let i = 0; i < 10; i++) {",
+									"        accountId += characters.charAt(Math.floor(Math.random() * characters.length));",
+									"    }",
+									"    return accountId; ",
+									"}",
+									"",
+									"const randomAccountId = generateRandomAccountId();",
+									"let body = JSON.parse(pm.request.body.raw);",
+									"body.platformAccountId = randomAccountId;",
+									"//pm.request.body.raw = JSON.stringify(body);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const responseBody = pm.response.json();",
+									"    pm.collectionVariables.set(\"CREATED_SUBSCRIPTION_ID\", responseBody.id);",
+									"}",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": \"{{CREATED_USER_ID}}\",\n    \"platformId\": \"{{YANDEX_PLUS_PLATFROM_ID}}\",\n    \"platformAccountId\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{USER_SUBSCRIPTION_API}}",
+							"host": [
+								"{{USER_SUBSCRIPTION_API}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": \"{{CREATED_USER_ID}}\",\n    \"platformId\": \"{{YOUTUBE_PLATFORM_ID}}\",\n    \"platformAccountId\": \"\"\n}"
+						},
+						"url": {
+							"raw": "{{USER_SUBSCRIPTION_API}}/{{CREATED_SUBSCRIPTION_ID}}",
+							"host": [
+								"{{USER_SUBSCRIPTION_API}}"
+							],
+							"path": [
+								"{{CREATED_SUBSCRIPTION_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-top",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{SUBSCRIPTION_API}}/top/{{SUBSCRIPTION_TOP_LIMIT}}",
+							"host": [
+								"{{SUBSCRIPTION_API}}"
+							],
+							"path": [
+								"top",
+								"{{SUBSCRIPTION_TOP_LIMIT}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"event": [
@@ -199,6 +337,51 @@
 		{
 			"key": "CREATED_USER_ID",
 			"value": ""
+		},
+		{
+			"key": "PLATFORM_API",
+			"value": "{{BASE}}/api/v1/platforms",
+			"type": "string"
+		},
+		{
+			"key": "USER_SUBSCRIPTION_API",
+			"value": "{{BASE}}/api/v1/users/{{CREATED_USER_ID}}/subscriptions",
+			"type": "string"
+		},
+		{
+			"key": "SUBSCRIPTION_API",
+			"value": "{{BASE}}/api/v1/subscriptions",
+			"type": "string"
+		},
+		{
+			"key": "YOUTUBE_PLATFORM_ID",
+			"value": "f12003b6-8a93-4e17-a0d0-d4ba7f0f0856",
+			"type": "string"
+		},
+		{
+			"key": "VK_MUSIC_PLATFORM_ID",
+			"value": "fa733bb2-6d1f-4013-8a80-442f7476d44a",
+			"type": "string"
+		},
+		{
+			"key": "YANDEX_PLUS_PLATFROM_ID",
+			"value": "881bceb7-b13b-46d2-aeb3-2d3a2fca1f97",
+			"type": "string"
+		},
+		{
+			"key": "NETFLIX_PLATFORM_ID",
+			"value": "dc49701f-8da9-4aa3-b1c4-ca7ca8438563",
+			"type": "string"
+		},
+		{
+			"key": "CREATED_SUBSCRIPTION_ID",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "SUBSCRIPTION_TOP_LIMIT",
+			"value": "5",
+			"type": "string"
 		}
 	]
 }

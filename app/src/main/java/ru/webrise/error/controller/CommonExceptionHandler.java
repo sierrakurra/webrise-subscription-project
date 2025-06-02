@@ -31,6 +31,7 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
         String message = getMessage(e, error);
 
         CustomErrorResponse errorResponse = CustomErrorResponse.builder()
+                .code(e.getCode())
                 .status(error.getStatus())
                 .message(message)
                 .uri(request.getRequest().getRequestURI())
@@ -61,7 +62,7 @@ public class CommonExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private String getMessage(CommonException exception, CustomError error) {
-        String message = exception.getMessage() != null ? exception.getMessage() : error.getMessage();
+        String message = error.getMessage() != null ? error.getMessage() : exception.getMessage();
         return ErrorMessageUtils.insertParameters(message, exception.getParams());
     }
 

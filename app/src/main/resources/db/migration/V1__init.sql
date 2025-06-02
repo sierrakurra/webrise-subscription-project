@@ -26,5 +26,6 @@ CREATE TABLE subscriptions (
     -- так и мнемоническим идентификатором (username)
     platform_account_id varchar(100) NOT NULL,
     FOREIGN KEY (platform_id) REFERENCES platforms(id),
-    FOREIGN KEY (user_id) REFERENCES users(id)
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    UNIQUE (user_id, platform_id, platform_account_id)
 );
