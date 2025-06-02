@@ -243,7 +243,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userId\": \"{{CREATED_USER_ID}}\",\n    \"platformId\": \"{{YANDEX_PLUS_PLATFROM_ID}}\",\n    \"platformAccountId\": \"\"\n}",
+							"raw": "{\n    \"userId\": \"{{CREATED_USER_ID}}\",\n    \"platformId\": \"{{YANDEX_PLUS_PLATFROM_ID}}\",\n    \"platformAccountId\": \"user\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
