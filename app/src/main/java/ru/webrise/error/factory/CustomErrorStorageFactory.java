@@ -13,9 +13,8 @@ import ru.webrise.error.model.CustomError;
 import ru.webrise.error.storage.CustomErrorStorage;
 import ru.webrise.error.storage.impl.CustomErrorStorageImpl;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.io.InputStream;
 import java.util.List;
 
 @Configuration
@@ -48,33 +47,11 @@ public class CustomErrorStorageFactory {
             return;
         }
 
-        List<File> storageRelatedFiles = new LinkedList<>();
-
-        File resourceFile = storageResource.getFile();
-        enrichFiles(resourceFile, storageRelatedFiles);
-
-        for (File file : storageRelatedFiles) {
-            initFromFile(file);
-        }
-    }
-
-    void enrichFiles(File rootFile, List<File> files) {
-        if (rootFile.isDirectory()) {
-            File[] directoryFiles = rootFile.listFiles();
-            if (directoryFiles != null) {
-                for (File directoryFile : directoryFiles) {
-                    enrichFiles(directoryFile, files);
-                }
+        try (InputStream inputStream = storageResource.getInputStream()) {
+            List<CustomError> customErrors = objectMapper.readValue(inputStream, new TypeReference<>() {});
+            for (CustomError customError : customErrors) {
+                customErrorStorage.put(customError);
             }
-        } else {
-            files.add(rootFile);
-        }
-    }
-
-    void initFromFile(File file) throws IOException {
-        List<CustomError> customErrors = objectMapper.readValue(file, new TypeReference<List<CustomError>>() {});
-        for (CustomError customError : customErrors) {
-            customErrorStorage.put(customError);
         }
     }
 
